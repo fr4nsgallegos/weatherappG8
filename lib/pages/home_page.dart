@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weatherappg8/models/weather_model.dart';
 import 'package:weatherappg8/services/api_services.dart';
+import 'package:weatherappg8/widgets/forecast_item_widget.dart';
 import 'package:weatherappg8/widgets/weather_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -113,6 +114,25 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   ),
+          ),
+          Text(
+            "Forecast",
+            style: TextStyle(color: Colors.white, fontSize: 30),
+          ),
+          SizedBox(height: 16),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+                ForecastItemWidget(),
+              ],
+            ),
           )
         ],
       ),

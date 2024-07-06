@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:weatherappg8/models/weather_model.dart';
 import 'package:weatherappg8/services/api_services.dart';
 import 'package:weatherappg8/widgets/weather_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  WeatherModel? model;
+  ApiServices apiServices = ApiServices();
+  Future<void> getWeather() async {
+    model = await apiServices.getWeatherInfo();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getWeather();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,58 +57,62 @@ class HomePage extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: Column(
-              children: [
-                Text(
-                  "Lima, Perú",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+            child: model == null
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: [
+                      Text(
+                        "${model?.location.name}, ${model?.location.country}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Image.asset(
+                        "assets/images/heavycloudy.webp",
+                        height: 100,
+                      ),
+                      Text(
+                        "${model?.current.tempC}°",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 100,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.white,
+                        height: 16,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          WeatherItem(
+                            imageName: "windspeed",
+                            unit: "km/h",
+                            value: model!.current.windKph.toString(),
+                          ),
+                          WeatherItem(
+                            imageName: "humidity",
+                            unit: "%",
+                            value: model!.current.humidity.toString(),
+                          ),
+                          WeatherItem(
+                            imageName: "cloud",
+                            unit: "%",
+                            value: model!.current.cloud.toString(),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Image.asset(
-                  "assets/images/heavycloudy.webp",
-                  height: 100,
-                ),
-                Text(
-                  "25°",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 100,
-                  ),
-                ),
-                Divider(
-                  color: Colors.white,
-                  height: 16,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    WeatherItem(
-                      imageName: "windspeed",
-                      unit: "km/h",
-                      value: "6",
-                    ),
-                    WeatherItem(
-                      imageName: "humidity",
-                      unit: "%",
-                      value: "58",
-                    ),
-                    WeatherItem(
-                      imageName: "cloud",
-                      unit: "%",
-                      value: "100",
-                    ),
-                  ],
-                )
-              ],
-            ),
           )
         ],
       ),

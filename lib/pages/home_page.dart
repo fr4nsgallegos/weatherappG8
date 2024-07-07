@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   ForecastModel? forecastModel;
   ApiServices apiServices = ApiServices();
   TextEditingController searchController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   Future<void> getWeather() async {
     model = await apiServices.getWeatherInfo();
@@ -88,152 +89,157 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color(0xff272B2E),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-            child: TextFormField(
-              controller: searchController,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    getForecasteWeather(searchController.text);
-                    setState(() {});
-                  },
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
-                hintText: "Ingresa la ciudad",
-                hintStyle: TextStyle(color: Colors.white),
-                filled: true,
-                fillColor: Colors.white.withOpacity(0.08),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              validator: (String? value) {
-                if (value != null && value.isEmpty) {
-                  return "el campo es obligatorio";
-                }
-                return null;
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.all(16),
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2 - 20,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(25),
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xff225DF1),
-                  Color(0xff679AFB),
-                ],
-                stops: [0.2, 0.7],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: forecastModel == null
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(
-                    children: [
-                      Text(
-                        "${forecastModel?.location.name}, ${forecastModel?.location.country}",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Image.asset(
-                        "assets/images/heavycloudy.webp",
-                        height: 100,
-                      ),
-                      Text(
-                        "${forecastModel?.current.tempC}°",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 100,
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.white,
-                        height: 16,
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          WeatherItem(
-                            imageName: "windspeed",
-                            unit: "km/h",
-                            value: forecastModel!.current.windKph.toString(),
-                          ),
-                          WeatherItem(
-                            imageName: "humidity",
-                            unit: "%",
-                            value: forecastModel!.current.humidity.toString(),
-                          ),
-                          WeatherItem(
-                            imageName: "cloud",
-                            unit: "%",
-                            value: forecastModel!.current.cloud.toString(),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-          ),
-          Text(
-            "Forecast",
-            style: TextStyle(color: Colors.white, fontSize: 30),
-          ),
-          SizedBox(height: 16),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: forecastModel == null
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Row(
-                    children: List.generate(
-                      forecastModel!.forecast.forecastday[0].hour.length,
-                      (index) => ForecastItemWidget(
-                        hour: forecastModel!
-                            .forecast.forecastday[0].hour[index].time
-                            .toString()
-                            .substring(10, 16),
-                        value: forecastModel!
-                            .forecast.forecastday[0].hour[index].tempC
-                            .toString(),
-                        isDay: forecastModel!
-                            .forecast.forecastday[0].hour[index].isDay,
-                      ),
+      body: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+              child: TextFormField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        getForecasteWeather(searchController.text);
+                      }
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
                     ),
                   ),
-          )
-        ],
+                  hintText: "Ingresa la ciudad",
+                  hintStyle: TextStyle(color: Colors.white),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.08),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                validator: (String? value) {
+                  if (value != null && value.isEmpty) {
+                    return "el campo es obligatorio";
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.all(16),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 2 - 20,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(25),
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xff225DF1),
+                    Color(0xff679AFB),
+                  ],
+                  stops: [0.2, 0.7],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: forecastModel == null
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Column(
+                      children: [
+                        Text(
+                          "${forecastModel?.location.name}, ${forecastModel?.location.country}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Image.asset(
+                          "assets/images/heavycloudy.webp",
+                          height: 100,
+                        ),
+                        Text(
+                          "${forecastModel?.current.tempC}°",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 100,
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.white,
+                          height: 16,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WeatherItem(
+                              imageName: "windspeed",
+                              unit: "km/h",
+                              value: forecastModel!.current.windKph.toString(),
+                            ),
+                            WeatherItem(
+                              imageName: "humidity",
+                              unit: "%",
+                              value: forecastModel!.current.humidity.toString(),
+                            ),
+                            WeatherItem(
+                              imageName: "cloud",
+                              unit: "%",
+                              value: forecastModel!.current.cloud.toString(),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+            ),
+            Text(
+              "Forecast",
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: forecastModel == null
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Row(
+                      children: List.generate(
+                        forecastModel!.forecast.forecastday[0].hour.length,
+                        (index) => ForecastItemWidget(
+                          hour: forecastModel!
+                              .forecast.forecastday[0].hour[index].time
+                              .toString()
+                              .substring(10, 16),
+                          value: forecastModel!
+                              .forecast.forecastday[0].hour[index].tempC
+                              .toString(),
+                          isDay: forecastModel!
+                              .forecast.forecastday[0].hour[index].isDay,
+                        ),
+                      ),
+                    ),
+            )
+          ],
+        ),
       ),
     );
   }

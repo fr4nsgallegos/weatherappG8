@@ -23,7 +23,7 @@ class ApiServices {
 
   Future<ForecastModel?> getForecastInfo() async {
     Uri url = Uri.parse(
-        "http://api.weatherapi.com/v1/forecast.json?key=$apiKey&q=Lima&days=1&aqi=no&alerts=no");
+        "http://api.weatherapi.com/v1/forecast.json?key=$apiKey&q=Cusco&days=1&aqi=no&alerts=no");
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);

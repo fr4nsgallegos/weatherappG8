@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherappg8/models/forecast_model.dart';
 // import 'package:weatherappg8/models/forecast_model.dart';
 import 'package:weatherappg8/models/weather_model.dart';
 import 'package:weatherappg8/services/api_services.dart';
@@ -12,16 +13,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   WeatherModel? model;
-  // ForecastModel
+  ForecastModel? forecastModel;
   ApiServices apiServices = ApiServices();
   Future<void> getWeather() async {
     model = await apiServices.getWeatherInfo();
     setState(() {});
   }
 
+  Future<void> getForecasteWeather() async {
+    forecastModel = await apiServices.getForecastInfo();
+    setState(() {});
+  }
+
   @override
   void initState() {
-    getWeather();
+    // getWeather();
+    getForecasteWeather();
     // TODO: implement initState
     super.initState();
   }
@@ -60,14 +67,14 @@ class _HomePageState extends State<HomePage> {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: model == null
+            child: forecastModel == null
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
                 : Column(
                     children: [
                       Text(
-                        "${model?.location.name}, ${model?.location.country}",
+                        "${forecastModel?.location.name}, ${forecastModel?.location.country}",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -81,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                         height: 100,
                       ),
                       Text(
-                        "${model?.current.tempC}°",
+                        "${forecastModel?.current.tempC}°",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 100,
@@ -100,17 +107,17 @@ class _HomePageState extends State<HomePage> {
                           WeatherItem(
                             imageName: "windspeed",
                             unit: "km/h",
-                            value: model!.current.windKph.toString(),
+                            value: forecastModel!.current.windKph.toString(),
                           ),
                           WeatherItem(
                             imageName: "humidity",
                             unit: "%",
-                            value: model!.current.humidity.toString(),
+                            value: forecastModel!.current.humidity.toString(),
                           ),
                           WeatherItem(
                             imageName: "cloud",
                             unit: "%",
-                            value: model!.current.cloud.toString(),
+                            value: forecastModel!.current.cloud.toString(),
                           ),
                         ],
                       )

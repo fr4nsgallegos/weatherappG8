@@ -48,10 +48,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> getDataLocation() async {
+    Position position = await getLocation();
+    forecastModel = await apiServices.getForecastInfoLocation(
+      position.latitude,
+      position.longitude,
+    );
+    setState(() {});
+  }
+
   @override
   void initState() {
     // getWeather();
-    getForecasteWeather();
+    // getForecasteWeather();
+    getDataLocation();
     // TODO: implement initState
     super.initState();
   }

@@ -22,6 +22,19 @@ class ApiServices {
     return null;
   }
 
+  Future<ForecastModel?> getForecastInfoLocation(
+      double lat, double long) async {
+    Uri url = Uri.parse(
+        "http://api.weatherapi.com/v1/forecast.json?key=$apiKey&q=$lat,$long&days=1&aqi=no&alerts=no");
+    http.Response response = await http.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      ForecastModel forecastModel = ForecastModel.fromJson(data);
+      return forecastModel;
+    }
+    return null;
+  }
+
   Future<ForecastModel?> getForecastInfo() async {
     Uri url = Uri.parse(
         "http://api.weatherapi.com/v1/forecast.json?key=$apiKey&q=Cusco&days=1&aqi=no&alerts=no");

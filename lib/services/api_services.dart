@@ -5,7 +5,7 @@ import 'package:weatherappg8/models/forecast_model.dart';
 import 'package:weatherappg8/models/weather_model.dart';
 
 class ApiServices {
-  String apiKey = "";
+  String apiKey = "70866d7ade244a3c9ca20142230509";
 
   Future<WeatherModel?> getWeatherInfo() async {
     Uri url = Uri.parse(

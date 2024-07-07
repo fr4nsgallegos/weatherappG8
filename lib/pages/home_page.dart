@@ -131,17 +131,15 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 16),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-                ForecastItemWidget(),
-              ],
-            ),
+            child: forecastModel == null
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Row(
+                    children: List.generate(
+                    forecastModel!.forecast.forecastday[0].hour.length,
+                    (index) => ForecastItemWidget(),
+                  )),
           )
         ],
       ),

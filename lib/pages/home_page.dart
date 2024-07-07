@@ -16,13 +16,15 @@ class _HomePageState extends State<HomePage> {
   WeatherModel? model;
   ForecastModel? forecastModel;
   ApiServices apiServices = ApiServices();
+  TextEditingController searchController = TextEditingController();
+
   Future<void> getWeather() async {
     model = await apiServices.getWeatherInfo();
     setState(() {});
   }
 
-  Future<void> getForecasteWeather() async {
-    forecastModel = await apiServices.getForecastInfo();
+  Future<void> getForecasteWeather(String ciudad) async {
+    forecastModel = await apiServices.getForecastInfo(ciudad);
     setState(() {});
   }
 
@@ -79,17 +81,60 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color(0xff272B2E),
       appBar: AppBar(
         centerTitle: true,
-        title: Text("WeatherApp"),
+        title: Text(
+          "WeatherApp",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Color(0xff272B2E),
         elevation: 0,
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+            child: TextFormField(
+              controller: searchController,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    getForecasteWeather(searchController.text);
+                    setState(() {});
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+                hintText: "Ingresa la ciudad",
+                hintStyle: TextStyle(color: Colors.white),
+                filled: true,
+                fillColor: Colors.white.withOpacity(0.08),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              validator: (String? value) {
+                if (value != null && value.isEmpty) {
+                  return "el campo es obligatorio";
+                }
+                return null;
+              },
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(16),
             margin: EdgeInsets.all(16),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 2 - 20,
             decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.circular(25),

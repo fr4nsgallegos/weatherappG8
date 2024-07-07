@@ -208,31 +208,31 @@ class Condition {
 
   Map<String, dynamic> toJson() => {
         "text": textValues.reverse[text],
-        "icon": iconValues.reverse[icon],
+        "icon": icon,
         "code": code,
       };
 }
 
-enum Icon {
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_176_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_116_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_176_PNG
-}
+// enum Icon {
+//   CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
+//   CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
+//   CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_176_PNG,
+//   CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_116_PNG,
+//   CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_176_PNG
+// }
 
-final iconValues = EnumValues({
-  "//cdn.weatherapi.com/weather/64x64/day/113.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  "//cdn.weatherapi.com/weather/64x64/day/116.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
-  "//cdn.weatherapi.com/weather/64x64/day/176.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_176_PNG,
-  "//cdn.weatherapi.com/weather/64x64/night/116.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_116_PNG,
-  "//cdn.weatherapi.com/weather/64x64/night/176.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_176_PNG
-});
+// final iconValues = EnumValues({
+//   "//cdn.weatherapi.com/weather/64x64/day/113.png":
+//       Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
+//   "//cdn.weatherapi.com/weather/64x64/day/116.png":
+//       Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
+//   "//cdn.weatherapi.com/weather/64x64/day/176.png":
+//       Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_176_PNG,
+//   "//cdn.weatherapi.com/weather/64x64/night/116.png":
+//       Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_116_PNG,
+//   "//cdn.weatherapi.com/weather/64x64/night/176.png":
+//       Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_176_PNG
+// });
 
 enum TextForecast {
   PARTLY_CLOUDY,

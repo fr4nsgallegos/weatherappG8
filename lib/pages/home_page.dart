@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weatherappg8/models/forecast_model.dart';
 // import 'package:weatherappg8/models/forecast_model.dart';
 import 'package:weatherappg8/models/weather_model.dart';
@@ -25,6 +26,28 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  Future<Position> getLocation() async {
+    bool _serviceEnabled;
+    LocationPermission _permission;
+
+    _serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!_serviceEnabled) {
+      return Future.error("Servicios de geolocalización desahabilitados");
+    }
+
+    _permission = await Geolocator.checkPermission();
+    if (_permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+      if (_permission == LocationPermission.denied) {
+        return Future.error("Los permisos han sido denegados");
+      }
+    }
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
   @override
   void initState() {
     // getWeather();
@@ -36,9 +59,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        ApiServices apiServices = ApiServices();
-        apiServices.getForecastInfo();
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        Position position = await getLocation();
+        print(position);
+        // ApiServices apiServices = ApiServices();
+        // apiServices.getForecastInfo();
       }),
       backgroundColor: Color(0xff272B2E),
       appBar: AppBar(

@@ -137,9 +137,20 @@ class _HomePageState extends State<HomePage> {
                   )
                 : Row(
                     children: List.generate(
-                    forecastModel!.forecast.forecastday[0].hour.length,
-                    (index) => ForecastItemWidget(),
-                  )),
+                      forecastModel!.forecast.forecastday[0].hour.length,
+                      (index) => ForecastItemWidget(
+                        hour: forecastModel!
+                            .forecast.forecastday[0].hour[index].time
+                            .toString()
+                            .substring(10, 16),
+                        value: forecastModel!
+                            .forecast.forecastday[0].hour[index].tempC
+                            .toString(),
+                        isDay: forecastModel!
+                            .forecast.forecastday[0].hour[index].isDay,
+                      ),
+                    ),
+                  ),
           )
         ],
       ),

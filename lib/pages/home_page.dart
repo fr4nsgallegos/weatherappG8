@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:weatherappg8/models/forecast_model.dart';
 import 'package:weatherappg8/models/weather_model.dart';
 import 'package:weatherappg8/services/api_services.dart';
 import 'package:weatherappg8/widgets/forecast_item_widget.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   WeatherModel? model;
+  // ForecastModel
   ApiServices apiServices = ApiServices();
   Future<void> getWeather() async {
     model = await apiServices.getWeatherInfo();
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         ApiServices apiServices = ApiServices();
-        apiServices.getWeatherInfo();
+        apiServices.getForecastInfo();
       }),
       backgroundColor: Color(0xff272B2E),
       appBar: AppBar(

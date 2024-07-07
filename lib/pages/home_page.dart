@@ -60,10 +60,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () async {
-        Position position = await getLocation();
-        print(position);
+        // Position position = await getLocation();
+        // print(position);
         // ApiServices apiServices = ApiServices();
-        // apiServices.getForecastInfo();
+        // apiServices.getProductsFakeApi();
+        apiServices.postProductFakeApi();
       }),
       backgroundColor: Color(0xff272B2E),
       appBar: AppBar(
